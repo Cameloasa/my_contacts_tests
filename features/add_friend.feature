@@ -6,7 +6,12 @@ Feature: Managing my friends
   Background:
     Given I am on the Mina Vänner main page
 
-  Scenario: Adding a single friend and checking the list
-    When I click "Ny Vän" and add "Ana" with email "ana@example.com"
+  Scenario Outline: Adding a friend and checking the list
+    When I click "Ny Vän" and add "<name>" with email "<email>"
     And I go to "Vänlista"
-    Then I should see "Ana" in the friends list
+    Then I should see "<name>" in the friends list
+
+    Examples:
+      | name | email            |
+      | Ana  | ana@example.com  |
+      | Bob  | bob@example.com  |
