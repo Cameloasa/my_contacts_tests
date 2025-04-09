@@ -1,5 +1,8 @@
+from dbm.sqlite3 import error
 
 from playwright.sync_api import Page
+
+
 
 def fill_name(page: Page, name: str):
     form = page.locator("section.form")
@@ -14,7 +17,11 @@ def click_new_friend(page: Page):
     page.wait_for_selector("section.form", timeout=10000)
 
 def click_save(page: Page):
-    page.get_by_text("Spara").click()
+    save_button = page.get_by_text("Spara")
+    if save_button.is_disabled():
+        error_message = page.locator("p.error").inner_text()
+        raise ValueError(f"Cannot save – error: {error_message}")
+    save_button.click()
 
 def go_to_friend_list(page: Page):
     page.get_by_text("Vänlista").click()
