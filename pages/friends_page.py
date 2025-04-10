@@ -1,3 +1,4 @@
+import re
 
 from playwright.sync_api import Page
 
@@ -28,6 +29,7 @@ class FriendsPage:
     def go_to_friend_list(self):
         self.page.get_by_text("Vänlista").click()
         self.page.wait_for_url("https://forverkliga.se/JavaScript/my-contacts/#/friends", timeout=10000)
+        self.page.wait_for_selector(".friend", timeout=10000)
 
     def edit_friend(self, old_name: str, new_name: str, new_email: str):
         # Find friend and click "Ändra"
@@ -43,11 +45,6 @@ class FriendsPage:
         # Save
         self.click_save()
 
-    def is_friend_visible(self, name: str, email: str = None):
-        if email:
-            return self.page.locator(".friend").filter(has_text=f"{name} {email}").is_visible()
-        return self.page.locator(".friend").filter(has_text=name).is_visible()
-
     def remove_friend(self, name: str, email: str = None):
         if email:
             friend_row = self.page.locator(".friend").filter(has_text=f"{name} {email}")
@@ -58,10 +55,15 @@ class FriendsPage:
         friend_row.get_by_text("Ta bort").click()
 
     def search_friend(self, search_term: str):
-        self.page.locator("input[placeholder='Sök']").fill(search_term)
+        #search_pattern = re.escape(search_term.strip()).lower()
+        self.page.locator("input[placeholder='Sök namn']").fill(search_term)
         self.page.wait_for_timeout(500)
+        #return self.page.locator(f".friend").filter(has_text=re.compile(search_pattern, re.IGNORECASE)).is_visible()
 
-
+    def is_friend_visible(self, name: str, email: str = None):
+        if email:
+            return self.page.locator(".friend").filter(has_text=f"{name} {email}").is_visible()
+        return self.page.locator(".friend").filter(has_text=name).is_visible()
 
 
 

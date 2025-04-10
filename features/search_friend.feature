@@ -11,8 +11,8 @@ Feature: Searching friends in Mina Vänner
 
   Scenario Outline: Searching for a friend
     When I search for "<search_term>"
-    Then I should see "<expected_name>" in the friends list
+    Then I should see "<expected_name>" with email "<expected_email>" in the friends list
     Examples:
-      | search_term       | expected_name |
-      | Test Friend       | Test Friend   |
-      | test@example.com  | Test Friend   |
+        | search_term       | expected_name | expected_email    |
+        | Test Friend       | Test Friend   | test@example.com  |
+        | test@example.com  | Test Friend   | test@example.com  |

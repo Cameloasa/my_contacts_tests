@@ -11,7 +11,7 @@ Feature: Editing friends in Mina Vänner
 
   Scenario Outline: Changing friend details
     When I edit "Test Friend" to have name "<new_name>" and email "<new_email>"
-    Then I should see "<new_name>" in the friends list
+    Then I should see "<new_name>" with email "<new_email>" in the friends list
     And I should only see "Test Friend" if "<new_name>" is "Test Friend"
     Examples:
         | new_name       | new_email           |

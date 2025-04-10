@@ -36,9 +36,9 @@ def step_when_remove_friend(context):
 def step_when_go_to_friend_list(context):
     context.friends_page.go_to_friend_list()
 
-@then(u'I should see "{name}" in the friends list')
-def step_then_see_friend(context, name):
-    assert context.friends_page.is_friend_visible(name), f"{name} not found"
+@then(u'I should see "{name}" with email "{email}" in the friends list')
+def step_then_see_friend(context, name, email):
+    assert context.friends_page.is_friend_visible(name, email), f"{name} with {email} not found"
 
 @then(u'I should not see "Test Friend" in the friends list')
 def step_then_not_see_friend(context):
@@ -56,3 +56,10 @@ def step_then_see_error_message(context):
     error_message = context.page.locator("p.error").inner_text()
     expected_message = "Fyll i båda fälten för att lägga till din vän."
     assert error_message == expected_message, f"Expected '{expected_message}', but got '{error_message}'"
+
+# Search
+@when(u'I search for "{search_term}"')
+def step_when_search_friend(context,search_term):
+    context.friends_page.search_friend(search_term)
+
+
