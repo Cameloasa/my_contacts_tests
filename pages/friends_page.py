@@ -6,7 +6,6 @@ class FriendsPage:
     def __init__(self, page: Page):
         self.page = page
 
-
     def click_new_friend(self):
         self.page.get_by_text("Ny Vän").click()
         self.page.wait_for_selector("section.form", timeout=10000)
@@ -44,9 +43,19 @@ class FriendsPage:
         # Save
         self.click_save()
 
-    def is_friend_visible(self, name: str):
-        return self.page.locator(f".friend:has-text('{name}')").is_visible()
+    def is_friend_visible(self, name: str, email: str = None):
+        if email:
+            return self.page.locator(".friend").filter(has_text=f"{name} {email}").is_visible()
+        return self.page.locator(".friend").filter(has_text=name).is_visible()
 
+    def remove_friend(self, name: str, email: str = None):
+        if email:
+            friend_row = self.page.locator(".friend").filter(has_text=f"{name} {email}")
+        else:
+            friend_row = self.page.locator(".friend").filter(has_text=name)
+        if not friend_row.is_visible():
+            raise ValueError(f"Friend '{name}'{' with email ' + email if email else ''} not found")
+        friend_row.get_by_text("Ta bort").click()
 
 
 

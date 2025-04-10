@@ -1,5 +1,5 @@
 from behave import given, when, then
-from pages.friends_page import FriendsPage
+
 
 @when(u'I edit "Test Friend" to have name "{new_name}" and email "{new_email}"')
 def step_when_edit_friend(context,new_name, new_email):
