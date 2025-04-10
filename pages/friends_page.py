@@ -57,6 +57,11 @@ class FriendsPage:
             raise ValueError(f"Friend '{name}'{' with email ' + email if email else ''} not found")
         friend_row.get_by_text("Ta bort").click()
 
+    def search_friend(self, search_term: str):
+        self.page.locator("input[placeholder='Sök']").fill(search_term)
+        self.page.wait_for_timeout(500)
+
+
 
 
 
