@@ -19,7 +19,6 @@ class FriendsPage:
         form = self.page.locator("section.form")
         form.locator("input").nth(1).fill(email)
 
-
     def click_save(self):
         save_button = self.page.get_by_text("Spara")
         if save_button.is_disabled():
@@ -31,8 +30,23 @@ class FriendsPage:
         self.page.get_by_text("Vänlista").click()
         self.page.wait_for_url("https://forverkliga.se/JavaScript/my-contacts/#/friends", timeout=10000)
 
+    def edit_friend(self, old_name: str, new_name: str, new_email: str):
+        # Find friend and click "Ändra"
+        friend_row = self.page.locator(".friend").filter(has_text=old_name)
+        if not friend_row.is_visible():
+            raise ValueError(f"Friend '{old_name}' not found in the list")
+        friend_row.get_by_text("Ändra").click()
+        # waiting form
+        self.page.wait_for_selector("section.form", timeout=10000)
+        # Fill new values
+        self.fill_name(new_name)
+        self.fill_email(new_email)
+        # Save
+        self.click_save()
+
     def is_friend_visible(self, name: str):
-        pass
+        return self.page.locator(f".friend:has-text('{name}')").is_visible()
+
 
 
 
