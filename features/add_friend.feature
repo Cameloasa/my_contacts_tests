@@ -20,7 +20,7 @@ Feature: Managing my friends
   Scenario Outline: Trying to add a friend with missing fields
     When I click "Ny Vän" and add "<name>" with email "<email>"
     And I try to save the friend
-    Then I should see the error message "Fyll i båda fälten för att lägga till din vän"
+    Then I should see the error message "Fyll i båda fälten för att lägga till din vän."
     Examples:
       | name | email            |
       | ""   | test@example.com |
