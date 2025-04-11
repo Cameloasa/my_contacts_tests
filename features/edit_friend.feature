@@ -5,15 +5,15 @@ Feature: Editing friends in Mina Vänner
 
   Background:
     Given I am on the Mina Vänner main page
-    When I click "Ny Vän" and add "Test Friend" with email "test@example.com"
-    And I try to save the friend
-    And I go to "Vänlista"
 
   Scenario Outline: Changing friend details
-    When I edit "Test Friend" to have name "<new_name>" and email "<new_email>"
+    When I click "Ny Vän" and add "<original_name>" with email "<original_email>"
+    And I try to save the friend
+    And I go to "Vänlista"
+    When I edit "<original_name>" to have name "<new_name>" and email "<new_email>"
     Then I should see "<new_name>" with email "<new_email>" in the friends list
-    And I should only see "Test Friend" if "<new_name>" is "Test Friend"
+    And I should only see "<original_name>" if "<new_name>" is "<original_name>"
     Examples:
-        | new_name       | new_email           |
-        | Updated Friend | test@example.com    |
-        | Test Friend    | updated@example.com |
+      | original_name | original_email   | new_name       | new_email           |
+      | Test Friend   | test@example.com | Updated Friend | test@example.com    |
+      | Test Friend   | test@example.com | Test Friend    | updated@example.com |

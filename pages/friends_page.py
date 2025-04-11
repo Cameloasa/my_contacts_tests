@@ -62,8 +62,11 @@ class FriendsPage:
 
     def is_friend_visible(self, name: str, email: str = None):
         if email:
-            return self.page.locator(".friend").filter(has_text=f"{name} {email}").is_visible()
-        return self.page.locator(".friend").filter(has_text=name).is_visible()
+            return self.page.get_by_text(f"{name} {email}").is_visible()
+        return self.page.get_by_text(name).is_visible()
 
-
-
+    def remove_any_existing(self, name: str, email: str):
+        locator = self.page.locator(".friend").filter(has_text=f"{name} {email}")
+        while locator.count() > 0:
+            locator.nth(0).get_by_text("Ta bort").click()
+            self.page.wait_for_timeout(500)

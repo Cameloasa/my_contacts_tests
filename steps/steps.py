@@ -22,14 +22,14 @@ def step_when_try_to_save(context):
         context.error_message = str(e)
 
 # Edit Friend
-@when(u'I edit "Test Friend" to have name "{new_name}" and email "{new_email}"')
-def step_when_edit_friend(context, new_name, new_email):
-    context.friends_page.edit_friend("Test Friend", new_name, new_email)
+@when(u'I edit "{original_name}" to have name "{new_name}" and email "{new_email}"')
+def step_when_edit_friend(context, original_name, new_name, new_email):
+    context.friends_page.edit_friend(original_name, new_name, new_email)
 
 # Remove Friend
-@when(u'I remove "Test Friend" from the friend list')
-def step_when_remove_friend(context):
-    context.friends_page.remove_friend("Test Friend", "test@example.com")
+@when(u'I remove "{name}" from the friend list')
+def step_when_remove_friend(context, name):
+    context.friends_page.remove_friend(name, None)
 
 # Common Steps
 @when(u'I go to "Vänlista"')
@@ -40,9 +40,9 @@ def step_when_go_to_friend_list(context):
 def step_then_see_friend(context, name, email):
     assert context.friends_page.is_friend_visible(name, email), f"{name} with {email} not found"
 
-@then(u'I should not see "Test Friend" in the friends list')
-def step_then_not_see_friend(context):
-    assert not context.friends_page.is_friend_visible("Test Friend", "test@example.com"), "Test Friend is still visible"
+@then(u'I should not see "{name}" in the friends list')
+def step_then_not_see_friend(context, name):
+    assert not context.friends_page.is_friend_visible(name, None), f"{name} is still visible"
 
 @then(u'I should only see "Test Friend" if "{new_name}" is "Test Friend"')
 def step_then_conditional_friend(context, new_name):
@@ -62,4 +62,7 @@ def step_then_see_error_message(context):
 def step_when_search_friend(context,search_term):
     context.friends_page.search_friend(search_term)
 
-
+# Clean
+@given(u'I remove any existing "{name}" with email "{email}"')
+def step_remove_any_existing(context, name, email):
+    context.friends_page.remove_any_existing(name, email)
