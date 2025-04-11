@@ -27,11 +27,23 @@ def step_when_edit_friend(context, original_name, new_name, new_email):
     context.friends_page.edit_friend(original_name, new_name, new_email)
 
 # Remove Friend
+@given(u'I remove any existing "{name}" with all matches')
+def step_remove_any_existing_all(context, name):
+    context.friends_page.remove_friend(name, None, all_matches=True)
+
+@given(u'I remove any existing "{name}"')
+def step_remove_any_existing(context, name):
+    context.friends_page.remove_friend(name, None, all_matches=True)
+
 @when(u'I remove "{name}" from the friend list')
 def step_when_remove_friend(context, name):
     context.friends_page.remove_friend(name, None)
 
 # Common Steps
+@given(u'I go to "Vänlista"')
+def step_given_go_to_friend_list(context):
+    context.friends_page.go_to_friend_list()
+
 @when(u'I go to "Vänlista"')
 def step_when_go_to_friend_list(context):
     context.friends_page.go_to_friend_list()
@@ -62,7 +74,3 @@ def step_then_see_error_message(context):
 def step_when_search_friend(context,search_term):
     context.friends_page.search_friend(search_term)
 
-# Clean
-@given(u'I remove any existing "{name}" with email "{email}"')
-def step_remove_any_existing(context, name, email):
-    context.friends_page.remove_any_existing(name, email)
