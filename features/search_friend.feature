@@ -1,4 +1,5 @@
 Feature: Searching friends in Mina Vänner
+
   Background:
     Given I am on the Mina Vänner main page
     And I go to "Vänlista"

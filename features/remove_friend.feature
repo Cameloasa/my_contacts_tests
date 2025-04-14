@@ -1,4 +1,5 @@
 Feature: Removing friends from Mina Vänner
+
   Background:
     Given I am on the Mina Vänner main page
     And I go to "Vänlista"
